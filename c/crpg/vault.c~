@@ -1,0 +1,22 @@
+#include "vault.h"
+
+#define setloc(a, b) timeline[b] = a
+
+location timeline[100];
+
+void initvault();
+
+void initvault()
+{
+//Weapons
+data sword = {"Sword", 10, 10};
+
+//Locations
+location town1 = {"Town 1", 1, false, true}; town1.location = 1; setloc(town1, 1); 
+location road1 = {"Road 1", 2, false, false}; road1.location = 2; setloc(road1, 2);
+location town2 = {"Town 2", 1, false, false}; town2.location = 3; setloc(town2, 3);
+location road2 = {"Road 2", 2, false, false}; road2.location = 4; setloc(road2, 4);
+
+//Monsters
+creature skeleton = {"Skeleton", 5, 2, 2}; skeleton.weapon = sword;
+}

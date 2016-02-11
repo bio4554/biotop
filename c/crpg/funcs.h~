@@ -1,0 +1,36 @@
+#include <types.h>
+#include <externs.h>
+/*
+
+This CPP file defines the core of the game engine, the functions. They are broken up into uses.
+
+*/
+
+
+
+//Movement functions
+
+void cm_move(creature *cre, int moveto) //Move creature to certain location
+{
+    cre.location = moveto;
+}
+
+void cm_forward(creature *cre)
+{
+    cre.location = cre.location + 1;
+}
+
+void cm_back(creature *cre)
+{
+    cre.location = cre.location - 1;
+}
+
+void cm_nexttown(creature *cre, location locs[])
+{
+    int i = cre.location;
+    int maxlocs = sizeof(locs); 
+    while(locs[i].type != 1 || i = maxlocs-1)
+        i++;
+    if(locs[i].type == 1)
+        cre.location = i;   
+}
