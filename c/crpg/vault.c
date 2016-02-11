@@ -10,7 +10,14 @@ location town1 = {"Town 1", 1, false, true};
 location road1 = {"Road 1", 2, false, false};
 location town2 = {"Town 2", 1, false, false};
 location road2 = {"Road 2", 2, false, false};
+
+//Weapons
 data sword = {"Sword", 10, 10};
+
+//Armor
+data leatherarmor = {"Leather armor", 10, 5};
+
+//Creatures
 creature skeleton = {"Skeleton", 5, 2, 2};
 
 void initvault()
@@ -25,5 +32,5 @@ void initvault()
  road2.location = 4; setloc(road2, 4);
 
 //Monsters
- skeleton.weapon = sword;
+ skeleton.weapon = sword; skeleton.armor = leatherarmor;
 }

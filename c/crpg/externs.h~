@@ -12,7 +12,7 @@ extern location timeline[timeline_limit]; //The game timeline, basically the map
 
 
 //Weapons
-extern weapon sword;
+extern data sword;
 
 //Creatures
 

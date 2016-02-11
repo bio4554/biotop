@@ -35,6 +35,7 @@ typedef struct creature //Generic creature type
     data inventory[100]; //Array of data types, for storing items, max of 100 items
     data weapon; //Currently equipped weapon
     data armor; //Currently equipped armor
+    int hp;
 } creature;
 
 typedef struct location //Location type

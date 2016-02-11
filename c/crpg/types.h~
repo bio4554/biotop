@@ -30,6 +30,7 @@ typedef struct creature //Generic creature type
 {
     char *name;
     int hd; //Hit dice, HP gotten from multiplying hit dice by level
+    int hp; //Hit points
     int level;
     int location; //Location of creature 
     data inventory[100]; //Array of data types, for storing items, max of 100 items
@@ -40,7 +41,9 @@ typedef struct creature //Generic creature type
 typedef struct location //Location type
 {
     char *name;
-    bool type; //TRUE for shop, FALSE for inn
+    int type; //1 for town, 2 for road
+    bool bshop;
+    bool binn;
     //Shop
     data inventory[100]; //Shop inventory can hold a maximum of 100 items
     
@@ -49,17 +52,6 @@ typedef struct location //Location type
     int location; //Location on timeline
 } location;
 
-
-
-typedef struct town 
-{
-    char *name; //Self explanatory, town name
-    bool bshop; //Does this town have a shop
-    bool binn; //Does this town have an inn
-    location *tshop; //Town shop, if it even has one
-    location *tinn; //Town inn, if it even has one
-    int location; //Location on the timeline, see above for explanation
-} town;
 
 
 

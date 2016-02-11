@@ -1,0 +1,127 @@
+#include <ncurses.h>
+#include <time.h>
+#include <stdlib.h>
+
+#define TESTGMAIN
+#define WALL '#'
+#define FLOOR '.'
+#define PATH ','
+#define MAX_ROOMS 5
+
+#define rand(a,b) (rand()%(b-a))+a
+
+
+
+typedef struct pt {
+    int x;
+    int y;
+}pt;
+
+
+typedef struct room {
+    pt c1, c2;
+} room;
+
+
+void initscreen()  //Initialize the screen
+{
+    srand(time(NULL));
+    initscr();
+    raw();
+    keypad(stdscr, TRUE);
+    noecho();
+}
+
+void d_wall(int x, int y) //Place wall at given coordinates
+{
+    mvaddch(y, x, WALL);
+}
+
+void d_floor(int x, int y) //Place floor at given coordinates
+{
+    mvaddch(y, x, FLOOR);
+}
+
+void d_path(int x, int y)
+{
+    mvaddch(y, x, PATH);
+}
+
+
+void g_path(int x1, int y1, int x2, int y2) //Generate a path to the given coordinates
+{
+    int ix = x1, iy = y1;
+    if(iy <= y2) //Coordinate is above, draw down
+    {
+        for(;iy < y2; iy++)
+            d_path(ix, iy);
+        
+        if(ix <= x2) //Target is to the right
+        {
+            for(;ix < x2; ix++)
+                d_path(ix, iy);
+        }
+    } 
+}
+
+void g_room(int x1, int y1, int x2, int y2) //Generate a room at given coordinates with specified size
+{
+    int ix, iy;
+    for(iy = 0;iy < y2; iy++)
+    {
+        for(ix = 0; ix < x2; ix++)
+            d_wall(ix+x1, iy+y1);
+    }
+}
+
+int g_d_compare(room dungeon[], room temproom)
+{
+    int i, ii, i3;
+    int ll, l3;
+    for(i = 0; i < MAX_ROOMS; i++)
+    {
+        if(dungeon[i].c1.x == temproom.c1.x || dungeon[i].c1.y == temproom.c1.y)
+            return 1;    
+    }
+    return 0;
+}
+
+
+void g_dungeon(int rx, int ry)
+{
+    int ir; //Room iterator
+    int ix, iy; //Iterator x and y
+    room dungeon[MAX_ROOMS]; //Array of rooms
+    room temproom;
+    for(ir = 0; ir < MAX_ROOMS; ir++)
+    {
+        do {
+        ix = rand(0, rx);
+        iy = rand(0, ry);
+        temproom.c1.x = ix; temproom.c1.y = iy;
+        temproom.c2.x = ix+20; temproom.c2.y = iy+10;
+        } while(g_d_compare(dungeon, temproom) != 0);
+        g_room(ix+20, iy+10, 20, 10);
+        dungeon[ir] = temproom;
+    }
+}
+
+
+
+#ifdef TESTGMAIN
+
+int main()
+{
+    initscreen();
+    int x2 = 20;
+    int y2 = 50;
+    int x1 = 10;
+    int y1 = 25;
+    g_dungeon(100, 50);
+    refresh();
+    getch();
+    endwin();
+    return 0;
+}
+
+#endif

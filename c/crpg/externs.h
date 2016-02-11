@@ -14,6 +14,9 @@ extern location timeline[timeline_limit]; //The game timeline, basically the map
 //Weapons
 extern data sword;
 
+//Armors
+extern data leatherarmor;
+
 //Creatures
 
 extern creature skeleton;

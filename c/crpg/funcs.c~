@@ -1,12 +1,11 @@
-#include "externs.h"
 #include "vault.h"
+#include <time.h>
 #define maxlocs 100
 /*
 
 This CPP file defines the core of the game engine, the functions. They are broken up into uses.
 
 */
-
 
 
 //Movement functions
@@ -125,10 +124,10 @@ void ds_inn(location ltown)
 void ds_battle(location lroad, creature monster, creature player)
 {
     int i;
-    clearScreen;
+   // clearScreen;
     printf("          %s", monster.name);
     skip(5);
-    printf("   HP of monster: %d\n", (monster.hd * monster.level));
+    printf("   HP of monster: %d\n", monster.hp);
     printf("   Level of monster: %d\n", monster.level);
     printf("   Monster's weapon: %s", monster.weapon.name);
     skip(5);
@@ -137,14 +136,40 @@ void ds_battle(location lroad, creature monster, creature player)
     skip(3); 
 }
 
+
+//Combat functions
+int c_diceroll(int dice, int sides)
+{
+    int value = 0;
+    int droll = 0;
+    for(int i = 0; i < dice; i++)
+        droll = (droll)+(rand() % sides);
+    //printf("\n\n\n\nDice roll: %d, %d", rand() % sides, droll);
+    return droll;    
+}
+
+void c_attack(creature *attacker, creature *enemy)
+{
+    int damage;
+    damage = ((c_diceroll((*attacker).level, (*attacker).weapon.mod)));
+    printf("\n\n\n\nDamage: %d\n Attacker level: %d\nAttack mod: %d", damage, (*attacker).level, (*attacker).weapon.mod); getchar();
+    (*enemy).hp = (*enemy).hp - damage;    
+}
+
+
+
 #define printloc printf("\n\nCurrent player location = %d\n\n Type of location = %d\n\n", testdude.location, timeline[testdude.location].type)
 
 
 
 int main() {
+    srand(time(NULL));
     initvault();
-    creature testdude;
+    skeleton.hp = 100;
+    creature testdude = {"Player", 10, 3}; testdude.weapon = sword; testdude.hp = 100;
     ds_battle(timeline[2], skeleton, testdude);
-    
+    getchar();
+    c_attack(&testdude, &skeleton);
+    ds_battle(timeline[2], skeleton, testdude);
     return 0;
 }
