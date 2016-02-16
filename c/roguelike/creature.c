@@ -1,3 +1,5 @@
+#include "types.h"
+
 char getcfd(coord, int);
 int c_move(creature *, int);
 void draw_creatures(creature cre[], int);
