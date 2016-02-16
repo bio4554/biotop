@@ -1,4 +1,4 @@
-#include "types.h"
+#include "externs.h"
 
 char getcfd(coord, int);
 int c_move(creature *, int);
