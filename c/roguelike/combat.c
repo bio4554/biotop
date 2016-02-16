@@ -1,3 +1,5 @@
+#include "types.h"
+
 int dice(int, int);
 void attack(creature *, creature *);
 
