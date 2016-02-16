@@ -1,4 +1,4 @@
-#include "types.h"
+#include "externs.h"
 
 int dice(int, int);
 void attack(creature *, creature *);
