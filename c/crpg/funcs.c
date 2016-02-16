@@ -66,8 +66,8 @@ void cm_prevroad(creature *cre, location locs[]) //Move creature to the previous
 
 //Display functions
 
-#define clearScreen for(i = 0; i < 100; i++) printf("\n")
-#define skip(a) for(i = 0; i < a; i++) printf("\n")
+#define clearScreen for(int i = 0; i < 100; i++) printf("\n")
+#define skip(a) for(int i = 0; i < a; i++) printf("\n")
 
 void ds_town(location ltown)
 {
@@ -124,7 +124,7 @@ void ds_inn(location ltown)
 void ds_battle(location lroad, creature monster, creature player)
 {
     int i;
-   // clearScreen;
+    // clearScreen;
     printf("          %s", monster.name);
     skip(5);
     printf("   HP of monster: %d\n", monster.hp);
@@ -136,6 +136,10 @@ void ds_battle(location lroad, creature monster, creature player)
     skip(3); 
 }
 
+void ds_invlist(creature creature)
+{
+
+}
 
 //Combat functions
 int c_diceroll(int dice, int sides)
@@ -155,6 +159,30 @@ void c_attack(creature *attacker, creature *enemy)
 
 
 
+void c_swapitem(creature *creature)
+{
+    int i;
+    char c;
+    skip(6); printf("	What item would you like to switch?\n\n   1: Weapon\n   2: Armor\n\n\n > ");
+    getchar(c);
+    if(c == '1')
+    {
+        printf
+        for(i = 0; i < MAX_INV; i++)
+        {
+        
+        }
+    } else if(c == '2')
+    {
+        
+    } else {
+        printf("\nUnknown command\n");
+        return;
+    }    
+}
+
+
+
 #define printloc printf("\n\nCurrent player location = %d\n\n Type of location = %d\n\n", testdude.location, timeline[testdude.location].type)
 
 
@@ -162,6 +190,7 @@ void c_attack(creature *attacker, creature *enemy)
 int main() {
     srand(time(NULL));
     initvault();
+    clearScreen;
     skeleton.hp = 100;
     creature testdude = {"Player", 10, 3}; testdude.weapon = sword; testdude.hp = 100;
     ds_battle(timeline[2], skeleton, testdude);

@@ -66,8 +66,8 @@ void cm_prevroad(creature *cre, location locs[]) //Move creature to the previous
 
 //Display functions
 
-#define clearScreen for(i = 0; i < 100; i++) printf("\n")
-#define skip(a) for(i = 0; i < a; i++) printf("\n")
+#define clearScreen for(int i = 0; i < 100; i++) printf("\n")
+#define skip(a) for(int i = 0; i < a; i++) printf("\n")
 
 void ds_town(location ltown)
 {
@@ -124,7 +124,7 @@ void ds_inn(location ltown)
 void ds_battle(location lroad, creature monster, creature player)
 {
     int i;
-   // clearScreen;
+    // clearScreen;
     printf("          %s", monster.name);
     skip(5);
     printf("   HP of monster: %d\n", monster.hp);
@@ -140,11 +140,9 @@ void ds_battle(location lroad, creature monster, creature player)
 //Combat functions
 int c_diceroll(int dice, int sides)
 {
-    int value = 0;
     int droll = 0;
     for(int i = 0; i < dice; i++)
         droll = (droll)+(rand() % sides);
-    //printf("\n\n\n\nDice roll: %d, %d", rand() % sides, droll);
     return droll;    
 }
 
@@ -152,8 +150,12 @@ void c_attack(creature *attacker, creature *enemy)
 {
     int damage;
     damage = ((c_diceroll((*attacker).level, (*attacker).weapon.mod)));
-    printf("\n\n\n\nDamage: %d\n Attacker level: %d\nAttack mod: %d", damage, (*attacker).level, (*attacker).weapon.mod); getchar();
     (*enemy).hp = (*enemy).hp - damage;    
+}
+
+void c_swapitem(creature *creature)
+{
+    
 }
 
 
@@ -165,6 +167,7 @@ void c_attack(creature *attacker, creature *enemy)
 int main() {
     srand(time(NULL));
     initvault();
+    clearScreen;
     skeleton.hp = 100;
     creature testdude = {"Player", 10, 3}; testdude.weapon = sword; testdude.hp = 100;
     ds_battle(timeline[2], skeleton, testdude);

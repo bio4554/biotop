@@ -80,8 +80,14 @@ int g_d_compare(room dungeon[], room temproom)
     int ll, l3;
     for(i = 0; i < MAX_ROOMS; i++)
     {
-        if(dungeon[i].c1.x == temproom.c1.x || dungeon[i].c1.y == temproom.c1.y)
-            return 1;    
+        if(temproom.c1.x > dungeon[i].c1.x && temproom.c1.x < (dungeon[i].c1.x + 20))
+            return 1;
+        if(temproom.c1.y > dungeon[i].c1.y && temproom.c1.y < (dungeon[i].c1.y + 10))
+            return 1;        
+        if(temproom.c2.x < dungeon[i].c2.x && temproom.c2.x > (dungeon[i].c2.x + 20))
+            return 1;
+        if(temproom.c2.y < dungeon[i].c2.y && temproom.c2.y > (dungeon[i].c2.y + 10))
+            return 1;
     }
     return 0;
 }
