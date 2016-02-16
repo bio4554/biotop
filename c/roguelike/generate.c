@@ -1,4 +1,4 @@
-#include "types.h"
+#include "externs.h"
 
 void m_fill(coord, coord, char);
 void m_hall(coord, int, int, char);
