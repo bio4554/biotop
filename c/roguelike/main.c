@@ -1,4 +1,4 @@
-
+#include "externs.h"
 
 void initscreen()
 {
