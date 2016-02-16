@@ -32,6 +32,13 @@ struct creature {
 	bool lit;
 };
 
+typedef struct data data;
+struct data {
+	const char* name;
+	float value;
+	float damage;
+};
+
 void initscreen()
 {
 	initscr();
