@@ -182,7 +182,7 @@ void g_dungeon(int numof) //Generate dungeon
 
 //Movement
 
-int c_move(creature *cre, int dir)
+int c_move(creature *cre, int dir) //Move a creature in a direction, if no wall is present
 {
 	if(dir == 1)
 	{
@@ -211,7 +211,7 @@ int c_move(creature *cre, int dir)
 	}
 }
 
-void draw_creatures(creature cre[], int max)
+void draw_creatures(creature cre[], int max) //Draw creatures onto the screen
 {
 	int i;
 	for(i = 0; i < max; i++)
@@ -219,6 +219,43 @@ void draw_creatures(creature cre[], int max)
 		mvaddch(cre[i].loc.y, cre[i].loc.x, cre[i].icon);
 	}
 }
+
+void clear_creatures(creature cre[], int max) //Clear all creatures from screen
+{
+	int i;
+	for(i = 0; i < max; i++)
+	{
+		mvaddch(cre[i].loc.y, cre[i].loc.x, ' ');
+	}
+}
+
+
+//Combat stuff
+
+
+int dice(int sides, int times)
+{
+	int i, counter = 0;
+	for(i = 0; i < times; i++)
+	{
+		counter = counter + rand(0, sides);
+	}
+}
+
+void attack(creature *attacker, creature *defender)
+{
+	
+}
+
+
+//Monster stuff
+
+void ai_step(creature *cre[], int max)
+{
+
+}
+
+
 
 
 #ifdef TESTMAIN
