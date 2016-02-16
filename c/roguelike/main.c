@@ -1,10 +1,3 @@
-#include <stdlib.h>
-#include <ncurses.h>
-#include <time.h>
-
-
-
-
 
 
 void initscreen()
@@ -15,59 +8,6 @@ void initscreen()
 	keypad(stdscr, TRUE);
 	noecho();
 }
-
-
-
-void init_monsters()
-{
-	//Template creature
-	creature blank;
-	blank.loc.x = 500; blank.loc.y = 500;
-	blank.icon = '#';
-	blank.lit = FALSE;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Combat stuff
-
-
-int dice(int sides, int times)
-{
-	int i, counter = 0;
-	for(i = 0; i < times; i++)
-	{
-		counter = counter + rand(0, sides);
-	}
-}
-
-void attack(creature *attacker, creature *defender)
-{
-	
-}
-
-
-
-
-
-
-
-#ifdef TESTMAIN
 
 int main()
 {
@@ -97,5 +37,3 @@ int main()
 	endwin();
 	return 0;
 }
-
-#endif
