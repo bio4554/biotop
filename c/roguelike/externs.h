@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <time.h>
 #include "types.h"
+#include "constant.h"
 
 
 extern creature monsters[MAX_CREATURES]; //Monsters in the game
