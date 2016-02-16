@@ -14,6 +14,10 @@
 #define MAX_THINGS 20
 #define WALL '#'
 #define FLOOR ' '
+#define FALSE 0
+#define TRUE 0
+
+typedef int bool;
 
 typedef struct coord coord;
 struct coord {
@@ -25,6 +29,14 @@ typedef struct creature creature;
 struct creature {
 	coord loc;
 	char icon;
+	bool lit;
+};
+
+typedef struct data data;
+struct data {
+	const char* name;
+	float value;
+	float damage;
 };
 
 void initscreen()
@@ -40,9 +52,11 @@ creature monsters[100];
 
 void init_monsters()
 {
+	//Template creature
 	creature blank;
 	blank.loc.x = 500; blank.loc.y = 500;
-	
+	blank.icon = '#';
+	blank.lit = FALSE;
 }
 
 
@@ -216,7 +230,8 @@ void draw_creatures(creature cre[], int max) //Draw creatures onto the screen
 	int i;
 	for(i = 0; i < max; i++)
 	{
-		mvaddch(cre[i].loc.y, cre[i].loc.x, cre[i].icon);
+		if(cre[i].lit == TRUE)
+			mvaddch(cre[i].loc.y, cre[i].loc.x, cre[i].icon);
 	}
 }
 
