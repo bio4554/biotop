@@ -1,3 +1,5 @@
+#include "types.h"
+
 void m_fill(coord, coord, char);
 void m_hall(coord, int, int, char);
 int g_scan(coord, coord, char);
