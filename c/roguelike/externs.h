@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <ncurses.h>
+#include <time.h>
+
 
 extern creature monsters[MAX_CREATURES]; //Monsters in the game
 
@@ -13,3 +17,7 @@ int c_move(creature *, int);
 void draw_creatures(creature cre[], int);
 void clear_creatures(creature cre[], int);
 void ai_step(creature *cre[], int);
+
+//combat.c
+int dice(int, int);
+void attack(creature *, creature *);
