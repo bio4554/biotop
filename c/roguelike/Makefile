@@ -1,7 +1,11 @@
-all: game
+CC=gcc
+FLAGS=-lncurses
+OUTPUT=game
 
-game: main.o
-	gcc main.o -o game -lncurses
 
-main.o: main.c
-	gcc -c main.c -lncurses
+roguelike : main.o
+	$(CC) main.o -o $(OUTPUT) $(FLAGS)
+
+main.o : main.c
+	$(CC) -c main.c $(FLAGS)
+

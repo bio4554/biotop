@@ -1,9 +1,10 @@
-#include <stdlib.h>
 #include <ncurses.h>
 #include <time.h>
+#include <stdlib.h>
 
 
-#define rand(a,b) ((rand() % b) + a)
+
+#define rand(a,b) ((rand()%b)+a)
 
 #define TESTMAIN
 
@@ -12,12 +13,11 @@
 #define ROOM_X 10
 #define ROOM_Y 5
 #define MAX_THINGS 20
-#define WALL '#'
+#define WALL '-'
 #define FLOOR ' '
-#define FALSE 0
-#define TRUE 0
-
-typedef int bool;
+#define MAX_MONSTERS 2
+#define WEP_TYPES 6
+#define END_NAMES 5
 
 typedef struct coord coord;
 struct coord {
@@ -43,10 +43,17 @@ struct weapon {
 
 typedef struct creature creature;
 struct creature {
+	const char* name;
 	coord loc;
 	char icon;
 	bool lit;
+	int ac;
+	int str;
+	bool alive;
+	int hp;
+	weapon weapon;
 };
+
 
 void initscreen()
 {
@@ -57,15 +64,32 @@ void initscreen()
 	noecho();
 }
 
-creature monsters[100];
+char* endNames[END_NAMES] = {
+	" of Burning",
+	" of Freezing",
+	" of Destruction",
+	" of Power",
+	" of Killing"
+	};
+
+char* wepFirst[WEP_TYPES] = {
+	"Sword",
+	"Bow",
+	"Staff",
+	"Dagger",
+	"Axe",
+	"Spear"
+};
+
+creature blank = {{500, 500}, '#', FALSE};
+creature monsters[MAX_MONSTERS] = {
+	{"Skeleton", {MAP_X/2+2, MAP_Y/2+2}, 's', 1, 5, 10, TRUE, 10},
+	{"Skeleton", {MAP_X/2+1, MAP_Y/2+2}, 's', 1, 5, 10, TRUE, 10},
+};
 
 void init_monsters()
 {
-	//Template creature
-	creature blank;
-	blank.loc.x = 500; blank.loc.y = 500;
-	blank.icon = '#';
-	blank.lit = FALSE;
+	
 }
 
 
@@ -203,31 +227,42 @@ void g_dungeon(int numof) //Generate dungeon
 		mvaddch(0, ix5, WALL);
 }
 
+void printStats(creature cre)
+{
+	int i;
+	for(i = 0; i < 30; i++)
+	{
+		mvaddch(MAP_Y-1, i, ' ');
+		mvaddch(MAP_Y, i, ' ');
+	}
+	mvprintw(MAP_Y, 1, "HP: %d", cre.hp);
+}
+
 //Movement
 
 int c_move(creature *cre, int dir) //Move a creature in a direction, if no wall is present
 {
 	if(dir == 1)
 	{
-		if(getcfd((*cre).loc, 1) != WALL)
+		if(getcfd((*cre).loc, 1) == FLOOR)
 		{
 			(*cre).loc.y--;
 		}
 	} else if(dir == 2)
 	{
-		if(getcfd((*cre).loc, 2) != WALL)
+		if(getcfd((*cre).loc, 2) == FLOOR)
 		{
 			(*cre).loc.y++;
 		}
 	} else if(dir == 3)
 	{
-		if(getcfd((*cre).loc, 3) != WALL)
+		if(getcfd((*cre).loc, 3) == FLOOR)
 		{
 			(*cre).loc.x--;
 		}
 	} else if(dir == 4)
 	{
-		if(getcfd((*cre).loc, 4) != WALL)
+		if(getcfd((*cre).loc, 4) == FLOOR)
 		{
 			(*cre).loc.x++;
 		}
@@ -239,7 +274,7 @@ void draw_creatures(creature cre[], int max) //Draw creatures onto the screen
 	int i;
 	for(i = 0; i < max; i++)
 	{
-		if(cre[i].lit == TRUE)
+		if(cre[i].lit == TRUE && cre[i].alive == TRUE)
 			mvaddch(cre[i].loc.y, cre[i].loc.x, cre[i].icon);
 	}
 }
@@ -253,6 +288,58 @@ void clear_creatures(creature cre[], int max) //Clear all creatures from screen
 	}
 }
 
+//Content generators
+/*
+char nameGen(int type)
+{
+	int i, i2;
+	char name[20]; 
+	if(type == 1) //Wep
+	{
+		i = rand(0, WEP_TYPES);
+		i2 = rand(0, END_NAMES);
+		strcpy(name, wepFirst[i]);
+		strcat(name, endNames[i2]);
+		return name;
+	}
+}
+
+weapon gen_weapon(int level) //Goes up to 10
+{
+	weapon returnWep;
+	if(level == 10)
+	{
+		
+	} else if(level == 9)
+	{
+
+	} else if(level == 8)
+	{
+
+	} else if(level == 7)
+	{
+
+	} else if(level == 6)
+	{
+
+	} else if(level == 5)
+	{
+
+	} else if(level == 4)
+	{
+
+	} else if(level == 3)
+	{
+
+	} else if(level == 2)
+	{
+
+	} else if(level == 1)
+	{
+
+	}
+}
+*/
 
 //Combat stuff
 
@@ -266,9 +353,14 @@ int dice(int sides, int times)
 	}
 }
 
-void attack(creature *attacker, creature *defender)
+int attack(creature *attacker, creature *defender)
 {
-	
+	int damage = dice((*attacker).weapon.sides, (*attacker).weapon.dice) + (((*attacker).str-10)/2);
+	if(damage >= (*defender).ac)
+		(*defender).hp = (*defender).hp - damage;
+	if((*defender).hp <= 0)
+		(*defender).alive = FALSE;	
+	return damage;
 }
 
 
@@ -293,10 +385,12 @@ int main()
 	creature player;
 	player.loc.x = MAP_X/2;
 	player.loc.y = MAP_Y/2;
+	player.hp = 100;
 	mvaddch(player.loc.y, player.loc.x, '@');
 	refresh();	
 	while((c = getchar()) != 'q')
 	{
+		printStats(player);
 		mvaddch(player.loc.y, player.loc.x, ' ');
 		if(c == 'w')
 			c_move(&player, 1);
@@ -307,6 +401,7 @@ int main()
 		else if(c == 'd')
 			c_move(&player, 4);
 		mvaddch(player.loc.y, player.loc.x, '@');
+		draw_creatures(monsters, MAX_MONSTERS);
 		refresh();
 	}
 	endwin();
